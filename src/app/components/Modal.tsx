@@ -19,6 +19,7 @@ export default function Modal({
   // we are going to use searchParams to handle the modal state
   const searchParams = useSearchParams()
   const isOpen = searchParams.has('modal')
+  
 
   return (
     <>
