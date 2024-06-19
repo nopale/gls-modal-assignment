@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Modal Component Integration with Next.js
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+This project includes a reusable Modal component designed for integration with your Next.js application. The Modal component allows for displaying content in a pop-up dialog, triggered by URL parameters.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Modal Component Details
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The Modal component (`Modal.tsx`) features include:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Automatic opening based on URL search parameters (`?modal=modal-id`).
+- Dynamic rendering of content and handling user interactions (e.g., saving or closing the modal).
+- Accessibility enhancements with proper ARIA attributes and keyboard navigation support.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Using the Modal Component
 
-## Learn More
+You can integrate the Modal component on any page with any content by assigning it a different ID and using a Next.js Link component to mirror that ID:
 
-To learn more about Next.js, take a look at the following resources:
+```tsx
+// ExamplePage.tsx or any other page where you want to use the Modal
+import Modal from '../components/Modal';
+import Link from 'next/link';
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+const ExamplePage: React.FC = () => {
+  return (
+    <div>
+      {/* Other content */}
+      <Modal id="example-modal" title="Example Modal">
+        <p>This is an example modal content.</p>
+      </Modal>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+      {/* Link to trigger the modal */}
+      <Link href={`/?modal=example-modal`} passHref>
+        <a>Open Example Modal</a>
+      </Link>
+    </div>
+  );
+};
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+export default ExamplePage;
