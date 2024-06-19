@@ -33,19 +33,14 @@ export default function Modal({
   const searchParams = useSearchParams()
 
   // if params contain modal with the specific id, then we open the modal component, otherwise close it
-  if (searchParams) {
-    isOpen = searchParams.get('modal') === id
-  } else {
-    isOpen = isOpen
-  }
+  isOpen = searchParams.get('modal') === id
 
   // current pathname
   const pathname = usePathname()
   const router = useRouter()
+
   // assigning refs to elements to handle focus
-  const modalRef = useRef<HTMLDialogElement | null>(null)
-  const closeRef = useRef<HTMLButtonElement | null>(null)
-  const saveRef = useRef<HTMLButtonElement | null>(null)
+  const modalRef = useRef<HTMLDialogElement>(null)
 
   const closeModal = () => {
     // closing the modal programmatically without Link
@@ -71,7 +66,7 @@ export default function Modal({
   }
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && modalRef && modalRef.current) {
       // showing the native dialog
       modalRef.current?.showModal()
       // blocking scroll when the modal is open
@@ -125,7 +120,6 @@ export default function Modal({
 
               <ModalFooter>
                 <button
-                  ref={saveRef}
                   data-testid="save-button"
                   aria-label="save and close the dialog"
                   type="button"
@@ -140,7 +134,6 @@ export default function Modal({
                   aria-label="close the dialog"
                 >
                   <button
-                    ref={closeRef}
                     data-testid="close-button"
                     aria-label="close the dialog"
                     className="close-button"
