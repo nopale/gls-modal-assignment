@@ -1,17 +1,33 @@
+'use client'
+
 import { Suspense } from 'react'
 import Modal from '../components/modal/Modal'
 import Link from 'next/link'
 import Image from 'next/image'
+import { ProductGrid } from './category.styles'
 
-export default function About() {
+export default function CategoryPage() {
+  // mocking a product array
+  const items = Array.from({ length: 18 }, (_, i) => i + 1)
+
   return (
     <main>
-      <h1 data-testid="about-headline">About page</h1>
+      <h1 data-testid="category-headline">This is a Product Category Page </h1>
+
+      <Link href="categorypage/?modal=modal-category">
+        <button>Open category page modal</button>
+      </Link>
+
+      <ProductGrid>
+        {items.map((item) => (
+          <div key={item}/>
+        ))}
+      </ProductGrid>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <Modal id="modal-about" title="About Modal Title">
+        <Modal id="modal-category" title="Category Modal Title">
           <p>Another dialog open</p>
-          <p>this Modal is on the about page</p>
+          <p>this Modal is on a product category page</p>
           <h4>You can have headers</h4>
           <p>
             and any other content inside the component, including a{' '}
@@ -26,10 +42,6 @@ export default function About() {
           />
         </Modal>
       </Suspense>
-
-      <Link href="about/?modal=modal-about">
-        <button>Open modal</button>
-      </Link>
     </main>
   )
 }

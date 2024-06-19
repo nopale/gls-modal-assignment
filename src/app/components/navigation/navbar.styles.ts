@@ -10,6 +10,7 @@ export const NavBar = styled.nav`
   align-items: center;
   padding: 1rem;
   color: white;
+  background-color: var(--background);
   font-size: 1.2rem;
   border-bottom: 1px solid #ffffff;
 

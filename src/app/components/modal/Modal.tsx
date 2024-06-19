@@ -10,6 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from './modal.styles'
+import { useEffect, useRef } from 'react'
 
 interface ModalProps {
   id: string
@@ -41,10 +42,10 @@ export default function Modal({
   // current pathname
   const pathname = usePathname()
   const router = useRouter()
-
-  if (!router) {
-    return null // Or handle the absence of router context gracefully
-  }
+  // assigning refs to elements to handle focus
+  const modalRef = useRef<HTMLDialogElement | null>(null)
+  const closeRef = useRef<HTMLButtonElement | null>(null)
+  const saveRef = useRef<HTMLButtonElement | null>(null)
 
   const closeModal = () => {
     // closing the modal programmatically without Link
@@ -62,43 +63,87 @@ export default function Modal({
     router.push(pathname)
   }
 
+  // closing the modal with the ESC key
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      closeModal()
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      // showing the native dialog
+      modalRef.current?.showModal()
+      // blocking scroll when the modal is open
+      document.body.classList.add('no-scroll')
+
+      document.addEventListener('keydown', handleKeyDown)
+    } else {
+      modalRef.current?.close()
+      document.body.classList.remove('no-scroll')
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
+
   return (
-    <div data-testid="modal">
+    <>
       <AnimatePresence>
         {isOpen && (
-          <div className={styles.wrapper}>
-            <div className={styles.overlay} onClick={closeModal}></div>
+          <dialog
+            ref={modalRef}
+            role="dialog"
+            data-testid="modal"
+            data-open
+            aria-label="modal"
+            aria-labelledby="title"
+            aria-describedby="description"
+            className={styles.wrapper}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className={styles.overlay}
+              onClick={closeModal}
+            />
             <ModalDialog
-              role="dialog"
-              data-testid="modal"
-              aria-label="modal"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.2 } }}
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
             >
-              <ModalHeader>
-                <h2>{title}</h2>
+              <ModalHeader role="title" aria-label="title">
+                <h2 id="title">{title}</h2>
               </ModalHeader>
 
               <ModalBody>
                 <div className="content-wrapper">
-                  <div className="content">{children}</div>
+                  <div className="content" id="description" role="description">
+                    {children}
+                  </div>
                 </div>
               </ModalBody>
 
               <ModalFooter>
                 <button
+                  ref={saveRef}
                   data-testid="save-button"
+                  aria-label="save and close the dialog"
                   type="button"
                   onClick={() => saveModal()}
                 >
                   Save
                 </button>
 
-                <Link href={pathname}>
+                <Link
+                  href={pathname}
+                  role="button"
+                  aria-label="close the dialog"
+                >
                   <button
+                    ref={closeRef}
                     data-testid="close-button"
-                    className='close-button'
+                    aria-label="close the dialog"
+                    className="close-button"
                     type="button"
                     onClick={() => closeModal()}
                   >
@@ -107,9 +152,9 @@ export default function Modal({
                 </Link>
               </ModalFooter>
             </ModalDialog>
-          </div>
+          </dialog>
         )}
       </AnimatePresence>
-    </div>
+    </>
   )
 }

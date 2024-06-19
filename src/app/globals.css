@@ -4,7 +4,7 @@
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
-  --gls-blue: #061ab1;
+  --faded-blue: #3d4bb9;
   --background: #1f1f1f;
   --off-white: #f9f9f9;
 }
@@ -18,35 +18,77 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 body {
   background-color: var(--background);
   color: #fafafa;
-  padding-top: 64px;
+  padding: 64px 1rem;
+}
+
+body.no-scroll {
+  overflow: hidden !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin-bottom: 2rem;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: var(--faded-blue);
+  text-decoration: underline;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+div.buttons-container {
+  display: flex;
+  justify-content: start;
+  margin-top: 2rem;
+  gap: 1rem;
 }
 
 button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
-  background-color: var(--gls-blue);
+  background-color: var(--faded-blue);
   color: white;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
   margin-top: 1rem;
 
-  &:hover {
-    background-color: var(--off-white);
-    color: var(--background);
-  }
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+[role='dialog'][data-open] {
+  display: flex;
+  border: 0;
+  margin: 0;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+button:hover {
+  background-color: var(--off-white);
+  color: var(--background);
 }
 
 @media (prefers-color-scheme: dark) {
