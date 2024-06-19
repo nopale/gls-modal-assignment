@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import StyledComponentsRegistry from './registry'
 import './globals.css'
 import Link from 'next/link'
 import Navbar from './components/navigation/navbar'
@@ -18,10 +19,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        {children}
-      </body>
+      <StyledComponentsRegistry>
+        <body className={inter.className}>
+          <Navbar />
+          {children}
+        </body>
+      </StyledComponentsRegistry>
     </html>
   )
 }

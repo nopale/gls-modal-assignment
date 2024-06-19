@@ -8,13 +8,13 @@ export default function About() {
       <h1 data-testid="about-headline">About page</h1>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <Modal title="About Modal Title">
+        <Modal id="modal-about" title="About Modal Title">
           <p>Another dialog open</p>
           <p>this is on the about page</p>
         </Modal>
       </Suspense>
 
-      <Link href="about/?modal=true">
+      <Link href="about/?modal=modal-about">
         <button>Open modal</button>
       </Link>
     </main>

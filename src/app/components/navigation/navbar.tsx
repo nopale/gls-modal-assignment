@@ -2,12 +2,14 @@
 
 import Link from 'next/link'
 import React from 'react'
+import { NavBar } from './navbar.styles'
 
 export default function Navbar() {
   return (
-    <ul>
+    <NavBar>
       <Link href="/">Home</Link>
       <Link href="/about">About</Link>
-    </ul>
+      <Link href="/about">Products</Link>
+    </NavBar>
   )
 }
